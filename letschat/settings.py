@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 from typing import ChainMap
 import os
-from urllib.parse import urlparse
+import redis
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,13 +77,13 @@ ASGI_APPLICATION = 'letschat.asgi.application'
 
 # Channel Layers
 redis_host = os.environ.get('REDIS_TLS_URL', 'localhost')
-redis_host = urlparse.urlparse(redis_host)
+redis = redis.from_url(redis_host)
 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [(redis_host, 6379)],
+            'hosts': [(redis, 6379)],
         }
     }
 }
