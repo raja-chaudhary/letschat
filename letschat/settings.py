@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-uoar_9%2941#%f$wful#@3u3(4*&b6g$wb1lt_xxuzfo)%ygrx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1', '127.0.0.1:8000']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -76,18 +76,26 @@ WSGI_APPLICATION = 'letschat.wsgi.application'
 ASGI_APPLICATION = 'letschat.asgi.application'
 
 # Channel Layers
-redis_host = os.environ.get('REDIS_TLS_URL', 'localhost')
-redis = redis.from_url(redis_host)
+# redis_host = os.environ.get('REDIS_TLS_URL', 'localhost')
+# redis = redis.from_url(redis_host)
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             'hosts': [(redis, 6379)],
+#         }
+#     }
+# }
 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [(redis, 6379)],
+            'hosts': [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
         }
     }
 }
-
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
