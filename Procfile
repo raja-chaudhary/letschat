@@ -1,2 +1,2 @@
-web: daphne letschat.asgi:application --port $PORT --bind 0.0.0.0 -v2
+web: daphne -p 8001 letschat.asgi:application
 worker: python manage.py runworker channels --settings=letschat.settings -v2
