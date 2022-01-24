@@ -37,7 +37,7 @@
                         <label class="has-text-weight-medium" style="color: #7c4dff;">Username</label>
 
                         <div class="control">
-                            <input class="input" type="text" placeholder="Username" id="username-input">
+                            <input class="input" type="text" placeholder="Username" id="username-input" onKeyPress="return checkSubmit(event)">
                         </div>
                     </div>
 
@@ -52,6 +52,16 @@
     </section>
     <script>
         document.querySelector('#room-name-input').focus();
+
+
+            function checkSubmit(e) {
+            if(e && e.keyCode == 13) {
+                var roomName = document.querySelector('#room-name-input').value;
+                var userName = document.querySelector('#username-input').value;
+
+                window.location.replace(roomName + '/?username=' + userName);
+            }
+        }
 
             document.querySelector('#room-name-submit').onclick = function(e) {
                 var roomName = document.querySelector('#room-name-input').value;
