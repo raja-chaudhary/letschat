@@ -75,12 +75,13 @@ WSGI_APPLICATION = 'letschat.wsgi.application'
 ASGI_APPLICATION = 'letschat.asgi.application'
 
 # Channel Layers
+redis_host = os.environ.get('REDIS_URL', 'localhost')
 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [("REDIS_URL", 6379)],
+            'hosts': [(redis_host, 6379)],
         }
     }
 }
