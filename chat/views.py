@@ -22,7 +22,6 @@ def check_messages(request, room_name):
     if request.method == 'GET':
         message_exists = Message.objects.filter(
             room=room_name).exists()
-    print(message_exists)
     if message_exists:
         return HttpResponse('<div id="no-messages" class="hide-this"></div>')
     else:
