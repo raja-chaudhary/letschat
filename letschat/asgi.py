@@ -1,3 +1,5 @@
+from channels.auth import AuthMiddlewareStack
+import chat.routing
 import os
 
 
@@ -9,17 +11,15 @@ from channels.security.websocket import OriginValidator
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'letschat.settings')
 django_asgi_app = get_asgi_application()
 
-import chat.routing
-from channels.auth import AuthMiddlewareStack
 
 application = ProtocolTypeRouter({
     "http": django_asgi_app,
     "websocket": OriginValidator(
-	AuthMiddlewareStack(
-        	URLRouter(
-            	chat.routing.websocket_urlpatterns
-        	)
-	),
-	[".herokuapp.com",],
+        AuthMiddlewareStack(
+            URLRouter(
+                chat.routing.websocket_urlpatterns
+            )
+        ),
+        [".herokuapp.com", "127.0.0.1"],
     ),
 })
